@@ -7,10 +7,10 @@ import Details from '../src/sections/Details';
 import SidebarOld from '../src/sections/nav/SidebarOld';
 import Sidebar from '../src/sections/nav/Sidebar';
 
-const Home = () => {
+const editDish = (label) => {
   return (
     <Flex>
-      <Details newDish={{}}/>
+      {/* <Details newDish={label}/> */}
     </Flex>
   );
 };

@@ -10,6 +10,7 @@ import {
   SimpleGrid,
   GridItem,
   Icon,
+  Link,
 } from '@chakra-ui/react';
 import { MdOutlineAssignment } from 'react-icons/md';
 import { Line } from 'react-chartjs-2';
@@ -69,10 +70,10 @@ Chart.register(
 );
 
 const dummyData = [
-  { label: 'Todays sales', value: 0 },
-  { label: 'Yesterdays sales', value: 0 },
-  { label: 'Last 7 day sales', value: 0 },
-  { label: 'All the time sales', value: 10.01 },
+  { label: 'Todays sales', value: 0 ,color:'#de425b'},
+  { label: 'Yesterdays sales', value: 0 ,color:'orange.200'},
+  { label: 'Last 7 day sales', value: 0 ,color:'#fff1a1'},
+  { label: 'All the time sales', value: 10.01 ,color:'#8ebe7d'},
 ];
 
 const txtDummy = [
@@ -81,7 +82,7 @@ const txtDummy = [
   { label: 'Users', value: '71.56%' },
   { label: 'Downloads', value: '34040' },
 ];
-function StatItem({ label, value }) {
+function StatItem({ label, value ,color }) {
   return (
     <HStack
       justifyContent="space-between"
@@ -89,7 +90,8 @@ function StatItem({ label, value }) {
       boxShadow="md"
       minW="250px"
       flex="1"
-      bg="gray.200"
+      // bg="gray.200"
+      bg={color}
       p="5"
     >
       <Box>
@@ -133,7 +135,16 @@ const data = {
 
 function MeinChart() {
   return (
-    <VStack flex="1">
+    <VStack flex="1"
+    // NEW 
+      bg='gray.100' 
+      px='4'
+      py='6'
+      borderRadius="md"
+      boxShadow="md"
+      // test
+      w='50%'
+    >
       <Box>
         <Text fontWeight="bold">Order details</Text>
         <Text>
@@ -151,53 +162,113 @@ function MeinChart() {
   );
 }
 function TableItem(props) {
-  return <Box minW="200px" h="100px" {...props}></Box>;
+  // need to change size *
+  return <Box
+   h="100px" w='200px' 
+  // w='full'
+  // h='full' 
+  textAlign='center' fontWeight='bold'  {...props}>{props.tNum}</Box>;
 }
 function LiveTable() {
   return (
-    <VStack flex="1">
-      <Text fontSize="lg" w="full" color="purple.800">
-        Live Table Status
-      </Text>
+   
+    <VStack 
+      flex="1"
+      bg='gray.100' 
+      px='4'
+      py='6'
+      // w='auto'
+      w='50%'
+      
+      // minW='auto'
+      // maxWidth='auto'
+      borderRadius="md"
+      boxShadow="md"
+      // minW="250px"
+    > 
+      <HStack flex={1} justifyContent='space-between'w='full' px='2'>
+        <Link href='/table'>
+        <Text fontSize="lg" fontWeight='bold'  pb='4' color="purple.800">
+          Live Table Status
+        </Text></Link>
+        
+        <HStack  columnGap={4} fontWeight='bold'>
+          <Text color="cyan.400">
+              Busy Table
+          </Text>
+          <Text color="gray.300">
+            Available Table
+          </Text>
+        </HStack>
+      </HStack>
+      
       <Flex
         w="full"
+
+        // maxW='auto'
         h="full"
-        minH="full"
+        // minH="auto"
         gap="1"
         rowGap="5"
         flexWrap="wrap"
         justifyContent="space-between"
       >
-        <TableItem bg="gray.200" />
-        <TableItem bg="cyan.400" />
-        <TableItem bg="cyan.400" />
+        {/* 50 was 200 */}
+        <VStack w='full'h='full' columnGap={2}>
+          <HStack w='full' h='full'>
+            <TableItem tNum='Table 1' bg="gray.300" />
+            <TableItem tNum='Table 2' bg="cyan.400" />
+            <TableItem tNum='Table 3' bg="cyan.400" />
+          </HStack>
 
-        <TableItem bg="gray.200" />
-        <TableItem bg="gray.200" />
-        <TableItem bg="cyan.400" />
+          <HStack w='full' h='full'>
+            <TableItem tNum='Table 4' bg="gray.300" />
+            <TableItem tNum='Table 5' bg="gray.300" />
+            <TableItem tNum='Table 6' bg="cyan.400" />
 
-        <TableItem bg="gray.200" />
-        <TableItem bg="gray.200" />
-        <TableItem bg="cyan.400" />
+          </HStack>
+
+          <HStack w='full' h='full'>
+            <TableItem tNum='Table 7' bg="gray.300" />
+            <TableItem tNum='Table 8' bg="gray.300" />
+            <TableItem tNum='Table 9' bg="cyan.400" />
+
+          </HStack>
+
+        </VStack>
+        
+        
+        
+        
       </Flex>
+
+
     </VStack>
   );
 }
 export default function Home() {
   return (
-    <VStack align="flex-start" w="full" h="full">
+    <VStack 
+      align="flex-start"  
+      w="full"
+      h="full"
+     >
+
       <Box w="full">
-        <Heading size="xl">Dashboard</Heading>
+        <Heading size="xl" pb='4'>Dashboard</Heading>
       </Box>
-      <HStack w="full">
+
+      <HStack w="full" pb='4'>
         {dummyData.map((el) => (
           <StatItem key={`stat_item_${el.key}`} {...el} />
         ))}
       </HStack>
-      <HStack px="2" py="2" flex="1" h="full" minW="full" minH="full" w="full">
+
+      <HStack alignItems='flex-start' bg='red' px="2" py="2" flex="1"  h="full" minW="full" minH="full" w="full">
         <MeinChart />
         <LiveTable />
       </HStack>
+
     </VStack>
   );
 }

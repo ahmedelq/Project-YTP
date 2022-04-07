@@ -8,6 +8,13 @@ import {
   Input,
   Image,
   IconButton,
+  CheckboxGroup,
+  Checkbox,
+  Stack,
+  useColorModeValue,
+  Circle,
+  Tooltip,
+  chakra,FiShoppingCart,Rating,
   Button,
   Badge,
   List,
@@ -15,6 +22,7 @@ import {
   Switch,
   Icon,
   Select,
+  Link,
   OrderedList,
 } from '@chakra-ui/react';
 import { BsFilter } from 'react-icons/bs';
@@ -25,6 +33,28 @@ import {
   MdFastfood,
   MdKeyboardArrowRight,
 } from 'react-icons/md';
+
+
+
+
+
+// TEST
+const data = {
+  isNew: true,
+  imageURL:
+    'https://upload.wikimedia.org/wikipedia/commons/f/fd/Chicken_tikka_masala.jpg',
+  name: 'Wayfarer Classic',
+  price: 4.5,
+  rating: 4.2,
+  numReviews: 34,
+};
+
+
+
+
+
+
+
 
 const dummyItems = [
   {
@@ -61,20 +91,37 @@ const dummyItems = [
 
 function DishItem({ children, label, price, img, rate, ...props }) {
   return (
+    <Link href='/edit' >
     <Flex
       maxW="220px"
-      maxH="220px"
+      // maxH="220px"
+      maxH='280'    
+
       minW="220px"
-      minH="220px"
+      // minH="220px"
+      minH='280'
+
+      border="5px solid black"
       borderRadius="6"
       direction="column"
       justifyContent="space-between"
-      style={{
-        background: `url(${img}) center/cover no-repeat`,
-      }}
+      // style={{
+      //   background: `url(${img})  100% 70% cover/contain no-repeat`,
+      // }}
       p="2"
     >
+      <Flex  w="full" >
+      <Image
+           w="full"
+        
+          borderRadius="lg"
+          src={img}
+          
+        />
+      </Flex>
+      
       <Flex w="full" justifyContent="space-between">
+        
         <Text
           bg="rgba(0,0,0,0.65)"
           color="gray.50"
@@ -85,9 +132,18 @@ function DishItem({ children, label, price, img, rate, ...props }) {
           <Icon as={AiFillStar} color="yellow.200" boxSize="12px" /> {rate}
         </Text>
         <Text>
-          <Switch />
+          <Switch isChecked/>
         </Text>
+
       </Flex>
+
+
+      {/* <Flex >
+      <Image h="40%"
+      w="full" src={img}></Image>
+      </Flex> */}
+
+
       <Flex direction="column">
         <Box>
           <Text
@@ -114,27 +170,37 @@ function DishItem({ children, label, price, img, rate, ...props }) {
           </Text>
         </Box>
       </Flex>
+     
     </Flex>
+    
+     </Link>
   );
 }
 
-export default function Home() {
+export default function Home(props) {// props added
   return (
     <Flex mt="3" minW="full" minH="full" direction="column" rowGap="10">
       <Flex flex="1">
-        <HStack w="65%" spacing="6">
-          <Input placeholder="Search"></Input>
+        {/* width was 65 */}
+        <HStack w="65%" spacing="6" >
+          <Input placeholder="Search for dish"></Input>
           <Button
             h="full"
             px={4}
             variant="outline"
-            leftIcon={<BsFilter />}
+            // leftIcon={<BsFilter />}
             fontWeight="normal"
           >
-            Filter
+            Search
           </Button>
+          
         </HStack>
+        {/* was with search HSTACK */}
+        <HStack> <Button ml={20} bg="black" fontWeight="bold" color="gray.100"><Link href='/add'>Add Dish</Link></Button></HStack>
       </Flex>
+
+
+
 
       <Flex
         direction="row"
@@ -159,7 +225,7 @@ export default function Home() {
             </HStack>
 
             <HStack h="full">
-              <Text m="0">Sorted by:</Text>
+              <Text m="0" fontWeight="bold">Sort by :</Text>
               <Select
                 border="none"
                 color="gray.800"
@@ -176,69 +242,261 @@ export default function Home() {
               </Select>
             </HStack>
           </Flex>
+
+          {/* dishes card */}
           <Flex
             w="full"
             h="full"
+            mt="10"
             columnGap="10"
             rowGap="5"
             flex="1"
             flexWrap="wrap"
+            
           >
             {dummyItems.map((el) => (
               <DishItem key={el.label} {...el} />
             ))}
           </Flex>
+
+
+
+
+
+
+          {/* TEST */}
+          
+          {/* <Flex p={50} w="full" h="auto" alignItems="center" justifyContent="center">
+      <Box
+        bg={useColorModeValue('white', 'gray.800')}
+        maxW="sm"
+        borderWidth="1px"
+        rounded="lg"
+        shadow="lg"
+        position="relative">
+        {data.isNew && (
+          <Circle
+            size="10px"
+            position="absolute"
+            top={2}
+            right={2}
+            bg="red.200"
+          />
+        )}
+
+        <Image
+          src={data.imageURL}
+          alt={`Picture of ${data.name}`}
+          roundedTop="lg"
+          h="400"
+          w="350"
+        />
+
+        <Box p="6">
+          <Box d="flex" alignItems="baseline">
+            {data.isNew && (
+              <Badge rounded="full" px="2" fontSize="0.8em" colorScheme="red">
+                New
+              </Badge>
+            )}
+          </Box>
+          <Flex mt="1" justifyContent="space-between" alignContent="center">
+            <Box
+              fontSize="2xl"
+              fontWeight="semibold"
+              as="h4"
+              lineHeight="tight"
+              isTruncated>
+              {data.name}
+            </Box>
+            <Tooltip
+              label="Add to cart"
+              bg="white"
+              placement={'top'}
+              color={'gray.800'}
+              fontSize={'1.2em'}>
+              <chakra.a href={'#'} display={'flex'}>
+                <Icon as={FiShoppingCart} h={7} w={7} alignSelf={'center'} />
+              </chakra.a>
+            </Tooltip>
+          </Flex> */}
+
+          {/* <Flex justifyContent="space-between" alignContent="center">
+            <Rating rating={data.rating} numReviews={data.numReviews} />
+            <Box fontSize="2xl" color={useColorModeValue('gray.800', 'white')}>
+              <Box as="span" color={'gray.600'} fontSize="lg">
+                £
+              </Box>
+              {data.price.toFixed(2)}
+            </Box>
+          </Flex> */}
+        {/* </Box>
+      </Box>
+    </Flex> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </Flex>
         <Flex flex="1">
           <Box w="full">
             <HStack>
-              <Icon
+              {/* <Icon
                 as={MdKeyboardArrowRight}
                 transform="rotate(90deg)"
                 boxSize="6"
-              />
+              /> */}
               <Text fontSize="md" fontWeight="bold">
                 Time
               </Text>
             </HStack>
 
             <VStack spacing="1" my="2" mb="4" ml="8" align="flex-start">
-              <Text>Breakfast</Text>
+              {/* <Text>Breakfast</Text>
               <Text>Lunch</Text>
-              <Text>Dinner</Text>
+              <Text>Dinner</Text> */}
+              <CheckboxGroup colorScheme='green' >
+                <Checkbox value='breakfast'>Breakfast</Checkbox>
+                <Checkbox value='lunch'>Lunch</Checkbox>
+                <Checkbox value='dinner'>Dinner</Checkbox>
+            </CheckboxGroup>
             </VStack>
 
             <HStack>
-              <Icon
+              {/* <Icon
                 as={MdKeyboardArrowRight}
                 transform="rotate(90deg)"
                 boxSize="6"
-              />
+              /> */}
               <Text fontSize="md" fontWeight="bold">
                 Type
               </Text>
             </HStack>
 
             <VStack spacing="1" mb="4" mt="2" ml="8" align="flex-start">
-              <Text>Vegan</Text>
-              <Text>Vegetarian</Text>
+              {/* <Text>Vegan</Text>
+              <Text>Vegetarian</Text> */}
+              <CheckboxGroup colorScheme='green' >
+              {/* <Stack spacing={[1, 5]} direction={['column', 'row']}> */}
+                <Checkbox value='vegan'>Vegan</Checkbox>
+                <Checkbox value='vegetarian'>Vegetarian</Checkbox>
+              {/* </Stack> */}
+            </CheckboxGroup>
             </VStack>
 
+
             <HStack>
-              <Icon
+              {/* <Icon
                 as={MdKeyboardArrowRight}
                 transform="rotate(90deg)"
                 boxSize="6"
-              />
+              /> */}
               <Text fontSize="md" fontWeight="bold">
-                Religion
+                Category
               </Text>
             </HStack>
 
+            <VStack spacing="1" mb="4" mt="2" ml="8" align="flex-start">
+              {/* <Text>Vegan</Text>
+              <Text>Vegetarian</Text> */}
+              <CheckboxGroup colorScheme='green' >
+              {/* <Stack spacing={[1, 5]} direction={['column', 'row']}> */}
+                <Checkbox id='MainCourse' value='mainCourse'>Main Course</Checkbox>
+                <Checkbox id='drink' value='drink'>Drink</Checkbox>
+                <Checkbox id='dessert' value='dessert'>Desert</Checkbox>
+
+              {/* </Stack> */}
+            </CheckboxGroup>
+            </VStack>
+
+
+
+
+
+
+            <HStack>
+              {/* <Icon
+                as={MdKeyboardArrowRight}
+                transform="rotate(90deg)"
+                boxSize="6"
+              /> */}
+              <Text fontSize="md" fontWeight="bold">
+                Status
+              </Text>
+            </HStack>
+
+            <VStack spacing="1" mb="4" mt="2" ml="8" align="flex-start">
+              {/* <Text>Vegan</Text>
+              <Text>Vegetarian</Text> */}
+              <CheckboxGroup colorScheme='green' >
+              {/* <Stack spacing={[1, 5]} direction={['column', 'row']}> */}
+                <Checkbox id='avaliable' value='avaliable'>Avaliable</Checkbox>
+                <Checkbox id='notav' value='notav'>Not Avaliable</Checkbox>
+              {/* </Stack> */}
+            </CheckboxGroup>
+            </VStack>
+
+
+            <HStack>
+              {/* <Icon
+                as={MdKeyboardArrowRight}
+                transform="rotate(90deg)"
+                boxSize="6"
+              /> */}
+              <Text fontSize="md" fontWeight="bold">
+                Features
+              </Text>
+            </HStack>
+
+            <VStack spacing="1" mb="4" mt="2" ml="8" align="flex-start">
+              {/* <Text>Vegan</Text>
+              <Text>Vegetarian</Text> */}
+              <CheckboxGroup colorScheme='green' >
+              {/* <Stack spacing={[1, 5]} direction={['column', 'row']}> */}
+                <Checkbox id='avaliable' value='avaliable'>Signature</Checkbox>
+                <Checkbox id='notav' value='notav'>Popular</Checkbox>
+              {/* </Stack> */}
+            </CheckboxGroup>
+            </VStack>
+
+
+
+              {/*  */}
+            {/* <HStack> */}
+              {/* <Icon
+                as={MdKeyboardArrowRight}
+                transform="rotate(90deg)"
+                boxSize="6"
+              /> */}
+              {/* <Text fontSize="md" fontWeight="bold">
+                Religion
+              </Text> */}
+            {/* </HStack> */}
+{/* 
             <VStack spacing="1" mt="2" ml="8" align="flex-start">
               <Text>Halal</Text>
               <Text>Kosher</Text>
-            </VStack>
+            </VStack> */}
+
+
+
+
+
+
+
           </Box>
         </Flex>
       </Flex>

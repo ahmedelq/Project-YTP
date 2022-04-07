@@ -4,6 +4,9 @@ import {
   InputLeftAddon,
   InputLeftElement,
   Container,
+Label,useDisclosure,Drawer,DrawerBody,DrawerOverlay,
+DrawerContent,DrawerCloseButton,DrawerHeader,
+Tabs,TabList,Tab,TabPanel,TabPanels,
   Flex,
   VStack,
   HStack,
@@ -19,6 +22,7 @@ import {
   Checkbox,
   Icon,
   Select,
+  Tbody,
 } from '@chakra-ui/react';
 import { BsFilter, BsArrowDownShort } from 'react-icons/bs';
 import {
@@ -26,6 +30,7 @@ import {
   AiOutlineSearch,
   AiOutlineArrowDown,
 } from 'react-icons/ai';
+import React from 'react';
 import { FiClock } from 'react-icons/fi';
 import {
   MdOutlineAttachMoney,
@@ -74,24 +79,24 @@ const dummyData = [
     items: 2,
     total: '18.2',
   },
-  {
-    no: '107',
-    time: '20',
-    items: 2,
-    total: '19.34',
-  },
-  {
-    no: '108',
-    time: '20',
-    items: 2,
-    total: '31.00',
-  },
-  {
-    no: '109',
-    time: '20',
-    items: 2,
-    total: '31.89',
-  },
+  // {
+  //   no: '107',
+  //   time: '20',
+  //   items: 2,
+  //   total: '19.34',
+  // },
+  // {
+  //   no: '108',
+  //   time: '20',
+  //   items: 2,
+  //   total: '31.00',
+  // },
+  // {
+  //   no: '109',
+  //   time: '20',
+  //   items: 2,
+  //   total: '31.89',
+  // },
 ];
 
 const dummyOrders = [
@@ -117,6 +122,11 @@ const dummyOrders = [
   },
 ];
 function OrderItem({ no, time, items, total, ...props }) {
+  // NEW TEST FOR DRAWER
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const orderRef = React.useRef()
+
+  
   return (
     <Flex
       bg="white"
@@ -137,8 +147,11 @@ function OrderItem({ no, time, items, total, ...props }) {
         <Checkbox size="lg" borderColor="gray.300" />
         <Icon color="green.400" boxSize="24px" as={GoPrimitiveDot} />
         <Text flex="1" fontSize="lg">
-          Table #{no}
+
+          {/* NEW */}
+         <Button onClick={onOpen} ref={orderRef}>Table #{no}</Button> 
         </Text>
+
         <Box
           bg="gray.200"
           p="4"
@@ -173,6 +186,34 @@ function OrderItem({ no, time, items, total, ...props }) {
           </Box>
         </Flex>
       </HStack>
+
+
+
+      <Drawer
+        isOpen={isOpen}
+        placement='right'
+        onClose={onClose}
+        finalFocusRef={orderRef}
+        size='lg'
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Order details</DrawerHeader>
+
+          <DrawerBody>
+            {/* <Input placeholder='Type here...' /> */}
+          <RightPanel/>
+          </DrawerBody>
+
+          {/* <DrawerFooter>
+            <Button variant='outline' mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme='blue'>Save</Button>
+          </DrawerFooter> */}
+        </DrawerContent>
+      </Drawer>
     </Flex>
   );
 }
@@ -181,12 +222,53 @@ function OrderSelectionTab() {
   return (
     <HStack
       w="full"
+      h='full'
       borderBottom="1px"
       borderColor="gray.200"
       spacing={12}
       color="gray.500"
     >
-      <Text>
+      <Tabs isFitted size="lg" w="full" variant="enclosed-colored" colorScheme='green' >
+                    <TabList>
+                      <Tab>Running orders <Text bg='red' borderRadius='3xl' color='white' mx={4} px={2}> {dummyData.length} </Text></Tab>
+                      <Tab>Just Placed</Tab>
+                      <Tab>Preparing</Tab>
+                      <Tab>Past orders</Tab>
+                    </TabList>
+
+                    <TabPanels>
+                      <TabPanel  >
+                        <HStack>
+                          <LeftPanel/>
+                          {/* <RightPanel/> */}
+                        </HStack>
+                        
+                      </TabPanel>
+
+                      <TabPanel>
+                        
+    
+                      </TabPanel>
+
+                      <TabPanel >
+                        
+                      </TabPanel>
+
+                      <TabPanel>
+
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+
+
+
+
+
+
+
+
+      {/* NEW COMMENTED */}
+      {/* <Text>
         Running orders{' '}
         <Badge borderRadius="lg" colorScheme="red">
           1
@@ -194,14 +276,17 @@ function OrderSelectionTab() {
       </Text>
       <Text>Just placed</Text>
       <Text>Preparing</Text>
-      <Text>Past orders</Text>
+      <Text>Past orders</Text> */}
+
+
+
     </HStack>
   );
 }
 
 function LeftPanel() {
   return (
-    <Flex flex="1" direction="column" rowGap="3">
+    <Flex flex="1" height='full'  direction="column" rowGap="3">
       <HStack px="3">
         <Select flex="1" minW="130px">
           <option>Select 1</option>
@@ -214,9 +299,12 @@ function LeftPanel() {
           <Input placeholder="Search"></Input>
         </InputGroup>
       </HStack>
+
       <Flex
         flex="1"
         rowGap="5"
+        minH='fit-content'
+        
         p="3"
         direction="column"
         overflow="hidden"
@@ -226,6 +314,7 @@ function LeftPanel() {
           <OrderItem key={`order_item_${el.no}`} {...el} />
         ))}
       </Flex>
+
     </Flex>
   );
 }
@@ -256,18 +345,19 @@ function OrderDishItem({ children, img, label, addons, note, amount, price }) {
           x {amount}
         </Text>
         <Text color="gray.400">(RM {price})</Text>
+        {/* <Button as={IoIosRemoveCircleOutline} w='16' h='16' bg='none'></Button> */}
         <Icon as={IoIosRemoveCircleOutline} fontSize="2xl" color="red.400" />
       </HStack>
     </Flex>
   );
 }
 
-function ListOfOrders({ isPreparing = false, isPaid = false }) {
+function ListOfOrders({ isPreparing = false, isPaid = false}) {
   return (
     <Box w="full">
       <HStack ml="3">
-        <Icon as={MdKeyboardArrowRight} transform="rotate(90deg)" boxSize="6" />
-        <Text fontSize="md" fontWeight="bold">
+        {/* <Icon as={MdKeyboardArrowRight} transform="rotate(90deg)" boxSize="6" /> */}
+        <Text fontSize="lg" fontWeight="bold">
           Order details
         </Text>
         <Flex>
@@ -313,7 +403,7 @@ function ListOfOrders({ isPreparing = false, isPaid = false }) {
     </Box>
   );
 }
-function RightPanel() {
+function RightPanel(Order,justPlaced =true) {
   return (
     <VStack
       borderLeft="1px"
@@ -322,10 +412,12 @@ function RightPanel() {
       p={4}
       align="flex-start"
       overflowY="scroll"
+      // w='100%'
     >
       <Flex justify="space-between" w="full">
         <Text my="auto" fontSize="3xl" fontWeight="bold">
-          Table #0-5
+          Table # 
+          {/* {orderId} */}
         </Text>
         <Box
           bg="white"
@@ -347,7 +439,8 @@ function RightPanel() {
         fontSize="lg"
         fontWeight="medium"
       >
-        <Text>Invoice: #1337</Text>
+        {/* {Order.invoiceNum} */}
+        <Text>Invoice: #1337 </Text> 
         <Text>Name: Rhythm Gupta</Text>
         <Box as="span">Phone:</Box>{' '}
         <Box as="span">
@@ -383,26 +476,35 @@ function RightPanel() {
         />
         Allergic to: Gluten - Oats, Barley, Corn{' '}
       </Box>
+
       <ListOfOrders isPreparing={true} />
       <ListOfOrders isPaid={true} />
 
       <HStack w="full" style={{ marginTop: '20px' }}>
-        <Button colorScheme="green" flex="1">
+        <Button onClick={''} colorScheme="green" flex="1">
           Add item
         </Button>
-        <Button colorScheme="green" flex="1">
+        <Button onClick={''} colorScheme="green" flex="1">
           Settle bill
         </Button>
+
+          {/* {justPlaced ?
+            <Button colorScheme="green" flex="1">
+              Accept Order
+            </Button> :''} */}
+
       </HStack>
     </VStack>
   );
 }
 
 export default function Orders({ children }) {
+   
+
   return (
     <VStack spacing={8} maxH="80vh" overflow="hidden">
       <Box w="full">
-        <Heading size="xl">Order Dashboard</Heading>
+        <Heading size="xl">Orders Dashboard</Heading>
       </Box>
       <OrderSelectionTab />
       <Flex w="full" h="full" flex="1" minW="0" minH="0">

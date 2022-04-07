@@ -22,6 +22,10 @@ import {
   GridItem,
   Grid,
   SimpleGrid,
+
+  Tab,Tabs,
+  TabPanels,TabList,TabPanel,
+
 } from '@chakra-ui/react';
 import { useDebugValue } from 'react';
 import { FiEdit } from 'react-icons/fi';
@@ -35,30 +39,72 @@ function OrderSelectionTab() {
       color="gray.500"
       columnGap="12"
     >
-      <Text>Takeaway</Text>
-      <Text
-        borderBottom="2px"
-        fontWeight="bold"
-        color="blue.500"
-        borderColor="blue.500"
-      >
-        Ground floor
-      </Text>
-      <Text>Second floor</Text>
-      <Flex
-        justifySelf="flex-end"
-        ml="auto"
-        fontSize="sm"
-        color="blue.300"
-        spacing="0"
-        columnGap="1"
-        alignItems="middle"
-      >
-        <Icon as={FiEdit} />
-        <Text display="inline" verticalAlign="bottom" p="0" m="0">
-          Edit
+
+
+                  <Tabs isFitted size="lg" w="full" variant="enclosed-colored" colorScheme='green' >
+                    <TabList>
+                      <Tab>Takeaway</Tab>
+                      <Tab>Ground Floor</Tab>
+                      <Tab>First Floor</Tab>
+                    </TabList>
+
+                    <TabPanels>
+                      <TabPanel >
+                      </TabPanel>
+                      <TabPanel>
+                        
+                        <SimpleGrid w="full" columns="5" columnGap="6" rowGap="6">
+                          <GridItem w="100%" h="110px" bg="cyan.400" />
+                          <GridItem w="100%" h="110px" bg="gray.100" />
+                          <GridItem w="100%" h="110px" bg="cyan.400" />
+                          <GridItem w="100%" h="110px" bg="cyan.400" />
+                          <GridItem w="100%" h="110px" bg="cyan.400" />
+
+                          <GridItem w="100%" h="110px" bg="cyan.400" />
+                          <GridItem w="100%" h="110px" bg="gray.100" />
+                          <GridItem w="100%" h="110px" bg="cyan.400" />
+                          <GridItem w="100%" h="110px" bg="gray.100" />
+                          <GridItem w="100%" h="110px" bg="gray.100" />
+                        </SimpleGrid>
+                      </TabPanel>
+                      <TabPanel >
+                        
+                      </TabPanel>
+                    </TabPanels>
+                  </Tabs>
+
+
+        {/* NEW COMMENTED */}
+
+        {/* <Text>Takeaway</Text>
+        <Text
+          borderBottom="2px"
+          fontWeight="bold"
+          color="blue.500"
+          borderColor="blue.500"
+        >
+          Ground floor
         </Text>
-      </Flex>
+        <Text>Second floor</Text> */}
+       
+       
+       
+        <Flex
+          justifySelf="flex-end"
+          ml="auto"
+          fontSize="sm"
+          color="blue.300"
+          spacing="0"
+          columnGap="1"
+          alignItems="middle"
+        >
+          <Link>
+            <Icon as={FiEdit} />
+            <Text display="inline" verticalAlign="bottom" p="0" m="0">
+              Edit
+            </Text>
+          </Link>
+        </Flex>
     </Flex>
   );
 }
@@ -108,7 +154,7 @@ export default function Orders({ children }) {
         <Stats />
       </Flex>
       <OrderSelectionTab />
-      <FoodTables />
+      {/* <FoodTables /> */}
     </VStack>
   );
 }

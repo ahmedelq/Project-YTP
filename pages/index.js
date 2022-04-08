@@ -213,7 +213,7 @@ function LiveTable() {
         flexWrap="wrap"
         justifyContent="space-between"
       >
-        {/* 50 was 200 */}
+        {/* Change to grid */}
         <VStack w='full'h='full' columnGap={2}>
           <HStack w='full' h='full'>
             <TableItem tNum='Table 1' bg="gray.300" />
@@ -264,7 +264,7 @@ export default function Home() {
         ))}
       </HStack>
 
-      <HStack alignItems='flex-start' bg='red' px="2" py="2" flex="1"  h="full" minW="full" minH="full" w="full">
+      <HStack alignItems='flex-start'  px="2" py="2" flex="1"  h="full" minW="full" minH="full" w="full">
         <MeinChart />
         <LiveTable />
       </HStack>
